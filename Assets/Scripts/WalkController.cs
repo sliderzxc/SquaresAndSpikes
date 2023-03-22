@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class WalkController : MonoBehaviour
 {
     [SerializeField] private CharacterController controller;
-    [SerializeField] private int speed;
+    [SerializeField] private float speed = 1f;
     private Vector3 dir = new Vector3(0, -5, 0);
 
     private void FixedUpdate() {
