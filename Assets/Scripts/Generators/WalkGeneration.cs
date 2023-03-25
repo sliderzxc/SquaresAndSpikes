@@ -11,21 +11,23 @@ public class WalkGeneration : MonoBehaviour
     [SerializeField] private GameObject[] walkPrefabs;
     [SerializeField] private Transform player;
 
-    private void Update() {
-        if (player.position.y + walkLength >= spawnPosition) {
+    private void Update()
+    {
+        if (player.position.y + walkLength >= spawnPosition) { 
             CreateWalk(Random.Range(0, walkPrefabs.Length));
-            if (player.position.y > 6) DeleteWalk();
+            spawnPosition += walkLength;
         }
     }
 
-    private void CreateWalk(int walkIndex) {
+    private void CreateWalk(int walkIndex)
+    {
         Vector3 position = new Vector3(0, spawnPosition, 0);
         GameObject nextWalk = Instantiate(walkPrefabs[walkIndex], position, Quaternion.identity);
         activeWalks.Add(nextWalk);
-        spawnPosition += walkLength;
     }
 
-    private void DeleteWalk() {
+    private void DeleteWalk()
+    {
         Destroy(activeWalks[0]);
         activeWalks.RemoveAt(0);
     }

@@ -7,8 +7,7 @@ public class Event<T>
 
     public void Invoke(T value)
     {
-        foreach (var listener in listeners)
-        {
+        foreach (var listener in listeners) {
             listener.OnNotify(value);
         }
     }

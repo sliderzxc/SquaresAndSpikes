@@ -3,36 +3,34 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private CharacterController controller;
-    [SerializeField] private float speed = 1f;
+    [SerializeField] private float speed = 2.5f;
 
     private Side currentSide = Side.Right;
     private float lineDistance = 4f;
+    private Vector3 playerPosition;
 
-    private void FixedUpdate() {
-        float horizontal = Input.GetAxis(Constants.HORIZONTAL);
-        float vertical = Input.GetAxis(Constants.VERTICAL);
-
-        Vector3 movement = new Vector3(horizontal, 1, vertical);
-        controller.Move(movement * Time.deltaTime * speed);
-
-        // if (SwipeController.isNeedToMove) {
-        //     MovePlayer(SwipeController.side);
-        // }
+    private void Start()
+    {
+        playerPosition = transform.position;
     }
 
-    private void MovePlayer(Side side) {
-        float vertical = Input.GetAxis(Constants.VERTICAL);
+    private void FixedUpdate()
+    {
+        float horizontal = Input.GetAxisRaw(Constants.HORIZONTAL);
+        float vertical = Input.GetAxisRaw(Constants.VERTICAL);
 
-        if (side == Side.Right && currentSide == Side.Left) {
-            Vector3 movement = new Vector3(10, 1, vertical);
-            controller.Move(movement * Time.deltaTime * speed);
-            currentSide = Side.Right;
-        }
+        Vector3 movement = new Vector3(horizontal, 1, vertical);
+        controller.Move(movement.normalized * speed * Time.fixedDeltaTime);
+    }
 
-        if (side == Side.Left && currentSide == Side.Right) {
-            Vector3 movement = new Vector3(-10f, 1, vertical);
-            controller.Move(movement * Time.deltaTime * speed);
-            currentSide = Side.Left;
-        }
+    private void MovePlayer(Side side)
+    {
+        float vertical = Input.GetAxisRaw(Constants.VERTICAL);
+
+        float direction = (side == Side.Left) ? -1f : 1f;
+        Vector3 movement = new Vector3(lineDistance * direction, 0, vertical);
+        controller.Move(movement.normalized * speed * Time.fixedDeltaTime);
+
+        currentSide = side;
     }
 }
